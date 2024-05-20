@@ -31,10 +31,10 @@ module.exports = {
       const rules = Array.isArray(RULES_DIR) ? RULES_DIR : [RULES_DIR];
       const rulesObject = {};
       rules.forEach((rulesDir) => {
-        fs.readdirSync(rulesDir)
-          .filter(filename => ruleExtensions.has(path.extname(filename)))
-          .map(filename => path.resolve(rulesDir, filename))
-          .forEach((absolutePath) => {
+        fs.readdirSync(rulesDir, { withFileTypes: true })
+          .filter(entry => ruleExtensions.has(path.extname(entry.name)))
+          .forEach((entry) => {
+            const absolutePath = path.resolve(rulesDir, entry.name);
             const ruleName = path.basename(absolutePath, path.extname(absolutePath));
             if (rulesObject[ruleName]) {
               throw new Error(`eslint-plugin-rulesdir found two rules with the same name: ${ruleName}`);
