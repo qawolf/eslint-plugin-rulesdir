@@ -39,7 +39,9 @@ module.exports = {
             if (rulesObject[ruleName]) {
               throw new Error(`eslint-plugin-rulesdir found two rules with the same name: ${ruleName}`);
             }
-            rulesObject[ruleName] = require(absolutePath);
+            if (entry.isFile()) {
+              rulesObject[ruleName] = require(absolutePath);
+            }
           });
       });
       cache[cacheKey] = rulesObject;
