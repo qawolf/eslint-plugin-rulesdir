@@ -32,7 +32,6 @@ module.exports = {
       const rulesObject = {};
       rules.forEach((rulesDir) => {
         fs.readdirSync(rulesDir, { withFileTypes: true })
-          .filter(entry => ruleExtensions.has(path.extname(entry.name)))
           .forEach((entry) => {
             const absolutePath = path.resolve(rulesDir, entry.name);
             const ruleName = path.basename(absolutePath, path.extname(absolutePath));
@@ -40,7 +39,22 @@ module.exports = {
               throw new Error(`eslint-plugin-rulesdir found two rules with the same name: ${ruleName}`);
             }
             if (entry.isFile()) {
+              if (!ruleExtensions.has(path.extname(entry.name))) return;
               rulesObject[ruleName] = require(absolutePath);
+            }
+            if (entry.isDirectory()) {
+              const [index] = fs.readdirSync(absolutePath, { withFileTypes: true })
+                .filter(subentry => subentry.isFile())
+                .filter(subentry => subentry.name.startsWith('index.'))
+                .filter(subentry => ruleExtensions.has(path.extname(subentry.name)))
+                .map(subentry => path.resolve(absolutePath, subentry.name));
+              if (index) {
+                try {
+                  rulesObject[ruleName] = require(path.resolve(absolutePath, index));
+                } catch (err) {
+                  // Skip unrelated directories
+                }
+              }
             }
           });
       });
