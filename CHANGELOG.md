@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.2-2
+
+- Ignore `.d.ts` files
+
 ## v0.2.2-1
 
 - Support loading rules from subdirectories
