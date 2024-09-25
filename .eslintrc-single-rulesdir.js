@@ -10,6 +10,7 @@ const SYMLINK_LOCATION = path.join(__dirname, 'node_modules', PACKAGE_NAME);
 // so that ESLint resolves this plugin name correctly.
 // (Yes, this plugin still has to hack node_modules to bootstrap itself.)
 if (!fs.existsSync(SYMLINK_LOCATION)) {
+  fs.mkdirSync(path.dirname(SYMLINK_LOCATION), { recursive: true });
   fs.symlinkSync(__dirname, SYMLINK_LOCATION);
 }
 
@@ -23,7 +24,7 @@ module.exports = {
   rules: {
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
-    'rulesdir/fake-rule': 'error',
+    '@qawolf/rulesdir/fake-rule': 'error',
   },
   plugins: [PACKAGE_NAME],
 };

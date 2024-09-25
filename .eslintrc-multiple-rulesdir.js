@@ -23,10 +23,10 @@ module.exports = {
   rules: {
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
-    'rulesdir/fake-rule': 'error',
-    'rulesdir/another-fake-rule': 'error',
-    'rulesdir/yet-another-fake-rule': 'error',
-    'rulesdir/a-fake-directory-rule': 'error',
+    '@qawolf/rulesdir/fake-rule': 'error',
+    '@qawolf/rulesdir/another-fake-rule': 'error',
+    '@qawolf/rulesdir/yet-another-fake-rule': 'error',
+    '@qawolf/rulesdir/a-fake-directory-rule': 'error',
   },
   plugins: [PACKAGE_NAME],
 };
