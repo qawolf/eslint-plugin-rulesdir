@@ -40,6 +40,7 @@ module.exports = {
             }
             if (entry.isFile()) {
               if (!ruleExtensions.has(path.extname(entry.name))) return;
+              if (entry.name.endsWith('.d.ts')) return;
               rulesObject[ruleName] = require(absolutePath);
             }
             if (entry.isDirectory()) {
@@ -47,6 +48,7 @@ module.exports = {
                 .filter(subentry => subentry.isFile())
                 .filter(subentry => subentry.name.startsWith('index.'))
                 .filter(subentry => ruleExtensions.has(path.extname(subentry.name)))
+                .filter(subentry => !subentry.name.endsWith('.d.ts'))
                 .map(subentry => path.resolve(absolutePath, subentry.name));
               if (index) {
                 try {
