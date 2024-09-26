@@ -31,6 +31,7 @@ module.exports = {
       const rules = Array.isArray(RULES_DIR) ? RULES_DIR : [RULES_DIR];
       const rulesObject = {};
       rules.forEach((rulesDir) => {
+        if (!fs.existsSync(rulesDir)) return;
         fs.readdirSync(rulesDir, { withFileTypes: true })
           .forEach((entry) => {
             const absolutePath = path.resolve(rulesDir, entry.name);
