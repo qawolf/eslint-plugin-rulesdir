@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.2-3
+
+- Allow missing directories in RULES_DIR
+
 ## v0.2.2-2
 
 - Ignore `.d.ts` files
