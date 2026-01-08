@@ -30,8 +30,12 @@ module.exports = {
     if (!cache[cacheKey]) {
       const rules = Array.isArray(RULES_DIR) ? RULES_DIR : [RULES_DIR];
       const rulesObject = {};
+      let allDirectoriesExist = true;
       rules.forEach((rulesDir) => {
-        if (!fs.existsSync(rulesDir)) return;
+        if (!fs.existsSync(rulesDir)) {
+          allDirectoriesExist = false;
+          return;
+        }
         fs.readdirSync(rulesDir, { withFileTypes: true })
           .forEach((entry) => {
             const absolutePath = path.resolve(rulesDir, entry.name);
@@ -61,7 +65,10 @@ module.exports = {
             }
           });
       });
-      cache[cacheKey] = rulesObject;
+      if (allDirectoriesExist) {
+        cache[cacheKey] = rulesObject;
+      }
+      return rulesObject;
     }
     return cache[cacheKey];
   },
